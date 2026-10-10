@@ -10,27 +10,27 @@
 @endphp
 <form method="post" action="{{ route('admin.role.update') }}" x-data="{ dirty: false }" @change="dirty = true">
     @csrf
-    <section class="card overflow-x-auto">
-        <table class="tbl min-w-[720px]">
-            <thead><tr><th class="w-1/3">Fitur</th>@foreach ($cfg['roles'] as $r => $label)<th class="text-center">{{ $label }}</th>@endforeach</tr></thead>
+    <section class="card overflow-hidden">
+        <table class="tbl w-full table-fixed">
+            <thead><tr><th class="w-[30%] !px-2 md:w-1/3 md:!px-4">Fitur</th>@foreach ($cfg['roles'] as $r => $label)<th class="!px-0.5 text-center text-[8px] break-words md:!px-4 md:text-[11px]">{{ $label }}</th>@endforeach</tr></thead>
             @foreach ($cfg['groups'] as $group => $features)
                 <tbody x-data="{ open: true }">
-                    <tr class="cursor-pointer bg-soft/60" @click="open = ! open"><td colspan="6" class="!py-2 text-xs font-bold tracking-wider text-primary-dark uppercase">
+                    <tr class="cursor-pointer bg-soft/60" @click="open = ! open"><td colspan="6" class="!px-2 !py-2 text-xs font-bold tracking-wider text-primary-dark uppercase">
                         <span class="inline-flex items-center gap-2"><x-icon name="chevron-down" :size="14" />{{ $group }}@if ($group === 'AI Saran')<x-icon name="bot" :size="14" />@endif</span></td></tr>
                     @foreach ($features as $key => $row)
                         <tr x-show="open">
-                            <td class="font-semibold">{{ $row[0] }}</td>
+                            <td class="!px-2 text-xs font-semibold break-words md:!px-4 md:text-sm">{{ $row[0] }}</td>
                             @foreach ($roles as $r)
                                 @php $val = $values[$key][$r]; [$ic, $cl, $tt] = $icon($val); @endphp
-                                <td class="text-center">
+                                <td class="!px-0.5 text-center md:!px-4">
                                     @if ($editable[$key][$r])
-                                        <label class="inline-flex cursor-pointer items-center gap-1.5" title="Dapat diubah admin">
+                                        <label class="inline-flex cursor-pointer flex-col items-center gap-0.5 sm:flex-row sm:gap-1.5" title="Dapat diubah admin">
                                             <input type="checkbox" name="p[{{ $key }}][{{ $r }}]" value="1" class="check" @checked($val !== 'n')>
                                             <span class="sr-only">{{ $row[0] }} untuk {{ $cfg['roles'][$r] }}</span>
                                             @if ($val === 'r')<x-icon name="eye" :size="14" class="text-primary-dark" aria-label="Baca saja" />@endif
                                         </label>
                                     @else
-                                        <span class="inline-flex items-center gap-1 {{ $cl }}" title="{{ $tt }} · dikunci sistem">
+                                        <span class="inline-flex flex-col items-center gap-0.5 sm:flex-row sm:gap-1 {{ $cl }}" title="{{ $tt }} · dikunci sistem">
                                             <x-icon :name="$ic" :size="18" /><span class="sr-only">{{ $tt }}</span><x-icon name="lock" :size="11" class="text-muted/50" />
                                         </span>
                                     @endif

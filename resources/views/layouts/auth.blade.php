@@ -3,7 +3,7 @@
 @section('body-class', 'min-h-screen')
 
 @section('body')
-<div class="grid min-h-screen lg:grid-cols-2">
+<div class="grid min-h-screen grid-cols-[minmax(0,1fr)] overflow-x-hidden lg:grid-cols-2">
     {{-- Kiri: sambutan di latar soft --}}
     <aside class="hidden flex-col items-center justify-center gap-10 bg-soft p-12 text-center lg:flex">
         <img src="{{ asset('images/logo-ruangdengar-slogan.png') }}" alt="RuangDengar. Suarakan Ceritamu, Temukan Jalanmu" width="1276" height="251" class="h-auto w-full max-w-sm">
@@ -17,7 +17,7 @@
     </aside>
 
     <main class="flex min-w-0 items-center justify-center p-4 sm:p-6">
-        <div class="w-full max-w-[440px]">
+        <div class="w-full min-w-0 max-w-[min(440px,100%)]">
             <div class="mb-4 flex justify-center lg:hidden"><img src="{{ asset('images/logo-ruangdengar-slogan.png') }}" alt="RuangDengar. Suarakan Ceritamu, Temukan Jalanmu" width="1276" height="251" class="h-auto w-full max-w-[260px]"></div>
             @yield('content')
         </div>
