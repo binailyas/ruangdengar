@@ -4,7 +4,7 @@
 @section('hero-text', 'Akun yang mengakses data sensitif dilindungi verifikasi dua langkah.')
 
 @section('content')
-<div class="card card-pad !p-8" x-data="otp()">
+<div class="card card-pad !p-5 sm:!p-8" x-data="otp()">
     <h1 class="text-2xl">Masukkan kode verifikasi</h1>
     <p class="mt-1 mb-6 text-sm text-muted">Kami mengirim kode 6 digit untuk akun {{ $email }}.</p>
 
@@ -17,10 +17,10 @@
     <form method="post" action="{{ route('otp.verify') }}" @submit="join()">
         @csrf
         <input type="hidden" name="code" x-ref="code">
-        <div class="flex justify-between gap-2" role="group" aria-label="Kode verifikasi enam digit">
+        <div class="flex justify-between gap-1.5 sm:gap-2" role="group" aria-label="Kode verifikasi enam digit">
             @for ($i = 0; $i < 6; $i++)
                 <input inputmode="numeric" maxlength="1" autocomplete="one-time-code" x-ref="d{{ $i }}" @input="move($event, {{ $i }})" @keydown.backspace="back($event, {{ $i }})" @paste.prevent="paste($event)"
-                       class="input !h-14 !w-12 !px-0 text-center text-xl font-bold @error('code') input-error @enderror" aria-label="Digit {{ $i + 1 }}">
+                       class="input !h-14 !w-auto min-w-0 flex-1 !px-0 text-center text-xl font-bold @error('code') input-error @enderror" aria-label="Digit {{ $i + 1 }}">
             @endfor
         </div>
         @error('code')<p class="error-text">{{ $message }}</p>@enderror

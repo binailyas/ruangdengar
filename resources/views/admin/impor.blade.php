@@ -67,11 +67,11 @@
     @if (count($s['errors']))
         <section class="card mt-4 overflow-hidden">
             <div class="border-b-2 border-line p-4"><h2 class="text-lg">Galat per baris</h2><p class="text-sm text-muted">Baris bermasalah dilewati. Perbaiki di berkas lalu unggah ulang, atau lanjutkan dengan baris yang valid.</p></div>
-            <table class="tbl"><thead><tr><th>Baris</th><th>NIS</th><th>Nama</th><th>Masalah</th></tr></thead><tbody>
+            <div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Baris</th><th>NIS</th><th>Nama</th><th>Masalah</th></tr></thead><tbody>
                 @foreach (array_slice($s['errors'], 0, 50) as $e)
                     <tr><td class="font-mono">{{ $e['line'] }}</td><td class="font-mono">{{ $e['nis'] }}</td><td>{{ $e['name'] }}</td><td><span class="chip chip-danger">{{ $e['msg'] }}</span></td></tr>
                 @endforeach
-            </tbody></table>
+            </tbody></table></div>
         </section>
     @endif
     <form method="post" action="{{ route('admin.impor.commit') }}" class="mt-5 flex justify-end gap-3">@csrf <input type="hidden" name="t" value="{{ $s['token'] }}">

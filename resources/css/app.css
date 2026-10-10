@@ -37,6 +37,8 @@
     /* V13: tata letak tidak boleh bisa digeser ke samping melebihi lebar layar. */
     html, body { max-width: 100%; overflow-x: clip; }
     img, svg, video, canvas { max-width: 100%; }
+    /* Elemen absolut (mis. sr-only) di dalam tabel yang bisa digeser jangan melebar ke luar kartu. */
+    .overflow-x-auto, .overflow-auto { position: relative; }
     /* V13-3: sembunyikan ikon mata/hapus bawaan Edge supaya hanya ada satu ikon buatan sendiri. */
     input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none; }
     input::-webkit-credentials-auto-fill-button { visibility: hidden; position: absolute; right: 0; }
@@ -113,7 +115,7 @@
     .bar > span { @apply block h-full rounded-full bg-primary; }
 
     /* Tab */
-    .tabs { @apply inline-flex gap-1 rounded-xl border-2 border-b-4 border-line bg-white p-1.5; }
+    .tabs { @apply inline-flex max-w-full gap-1 overflow-x-auto rounded-xl border-2 border-b-4 border-line bg-white p-1.5; }
     .tab { @apply inline-flex h-8 items-center gap-2 rounded-lg px-4 text-[13px] font-bold whitespace-nowrap text-muted transition-colors hover:bg-soft hover:text-ink; }
     .tab[aria-current="page"], .tab.is-active { @apply bg-primary text-white; }
 

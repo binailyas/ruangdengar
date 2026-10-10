@@ -16,7 +16,7 @@
         <p class="text-xs text-muted">RuangDengar · Sistem Layanan Terpadu BK Sekolah</p>
     </aside>
 
-    <main class="flex items-center justify-center p-6">
+    <main class="flex min-w-0 items-center justify-center p-4 sm:p-6">
         <div class="w-full max-w-[440px]">
             <div class="mb-4 flex justify-center lg:hidden"><img src="{{ asset('images/logo-ruangdengar-slogan.png') }}" alt="RuangDengar. Suarakan Ceritamu, Temukan Jalanmu" width="1276" height="251" class="h-auto w-full max-w-[260px]"></div>
             @yield('content')

@@ -13,7 +13,7 @@
     </div>
 
     <section class="card mt-4 overflow-hidden">
-        <table class="tbl">
+        <div class="overflow-x-auto"><table class="tbl">
             @if ($tab === 'insiden')
                 <thead><tr><th class="w-16">Urutan</th><th>Nama</th><th>Deskripsi</th><th>Status</th><th class="text-right">Aksi</th></tr></thead>
                 <tbody>
@@ -45,7 +45,7 @@
                 @endforeach
                 </tbody>
             @endif
-        </table>
+        </table></div>
     </section>
 
     <div x-show="modal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-4" role="dialog" aria-modal="true" @keydown.escape.window="modal = false">

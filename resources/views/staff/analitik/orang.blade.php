@@ -6,7 +6,7 @@
 @include('staff.analitik._head')
 <div class="mb-4 rounded-xl border-2 border-line bg-soft px-4 py-3 text-sm font-semibold text-primary-dark">Peran ditentukan oleh petugas. Sistem tidak menyimpulkan siapa pelaku.</div>
 <section class="card overflow-hidden">
-    <table class="tbl">
+    <div class="overflow-x-auto"><table class="tbl">
         <thead><tr><th>Nama</th><th>Laporan</th><th>Peran (terkonfirmasi)</th><th>Status</th><th class="text-right">Aksi</th></tr></thead>
         <tbody>
         @forelse ($people as $p)
@@ -24,6 +24,6 @@
             <tr><td colspan="5"><x-empty icon="users" title="Belum ada nama terdeteksi" /></td></tr>
         @endforelse
         </tbody>
-    </table>
+    </table></div>
 </section>
 @endsection

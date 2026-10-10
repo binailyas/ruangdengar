@@ -25,15 +25,15 @@
 
 <div class="mt-6 grid gap-6 xl:grid-cols-2">
     <section class="card overflow-hidden"><h2 class="p-5 pb-3 text-lg">Rekap per kategori</h2>
-        <table class="tbl"><thead><tr><th>Kategori</th><th>Jumlah</th><th class="w-1/2"></th></tr></thead><tbody>
+        <div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Kategori</th><th>Jumlah</th><th class="w-1/2"></th></tr></thead><tbody>
             @php $mx = max(1, $perKategori->max() ?? 1); @endphp
             @forelse ($perKategori as $k => $n)<tr><td class="font-semibold">{{ $k }}</td><td class="font-bold">{{ $n }}</td><td><div class="bar"><span style="width: {{ $n / $mx * 100 }}%"></span></div></td></tr>@empty<tr><td colspan="3"><x-empty title="Belum ada data" /></td></tr>@endforelse
-        </tbody></table></section>
+        </tbody></table></div></section>
     <section class="card overflow-hidden"><h2 class="p-5 pb-3 text-lg">Rekap per lokasi</h2>
-        <table class="tbl"><thead><tr><th>Lokasi</th><th>Jumlah</th><th class="w-1/2"></th></tr></thead><tbody>
+        <div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Lokasi</th><th>Jumlah</th><th class="w-1/2"></th></tr></thead><tbody>
             @php $mx = max(1, $perLokasi->max() ?? 1); @endphp
             @forelse ($perLokasi as $k => $n)<tr><td class="font-semibold">{{ $k }}</td><td class="font-bold">{{ $n }}</td><td><div class="bar"><span class="!bg-accent" style="width: {{ $n / $mx * 100 }}%"></span></div></td></tr>@empty<tr><td colspan="3"><x-empty title="Belum ada data" /></td></tr>@endforelse
-        </tbody></table></section>
+        </tbody></table></div></section>
 </div>
 
 {{-- G3: ringkasan AI --}}

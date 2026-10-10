@@ -34,10 +34,10 @@
     </section>
 
     <section x-show="tab === 'login'" x-cloak class="card mt-4 overflow-hidden">
-        <table class="tbl"><thead><tr><th>Tanggal</th><th>Jenis</th></tr></thead><tbody>
+        <div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Tanggal</th><th>Jenis</th></tr></thead><tbody>
             @forelse ($logins as $l)<tr><td>{{ $l->created_at->translatedFormat('d M Y, H:i') }}</td><td><span class="chip chip-gray">Login berhasil</span></td></tr>
             @empty<tr><td colspan="2"><x-empty title="Belum ada riwayat login" /></td></tr>@endforelse
-        </tbody></table>
+        </tbody></table></div>
     </section>
 
     <section x-show="tab === 'aksi'" x-cloak class="card card-pad mt-4">

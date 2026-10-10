@@ -7,7 +7,7 @@
 @include('staff.analitik._head')
 <div class="grid gap-6 xl:grid-cols-[1fr_380px]">
     <section class="card overflow-hidden">
-        <table class="tbl">
+        <div class="overflow-x-auto"><table class="tbl">
             <thead><tr><th class="w-14">#</th><th>Kata atau frasa</th><th class="w-1/3">Jumlah laporan</th><th>vs periode lalu</th><th class="text-right">Pantau</th></tr></thead>
             <tbody>
             @forelse ($rows as $r)
@@ -23,7 +23,7 @@
                 <tr><td colspan="5"><x-empty icon="bar-chart" title="Belum ada data" text="Belum ada laporan yang cocok dengan filter ini." /></td></tr>
             @endforelse
             </tbody>
-        </table>
+        </table></div>
         @if ($rows->count() >= $limit)<div class="border-t-2 border-line p-3 text-center"><a href="{{ request()->fullUrlWithQuery(['batas' => $limit + 20]) }}" class="btn btn-outline btn-sm">Muat lebih banyak</a></div>@endif
     </section>
 

@@ -11,11 +11,11 @@
 @if ($tab === 'alias')
     <div class="mt-4 grid gap-6 xl:grid-cols-[1fr_360px]">
         <section class="card overflow-hidden">
-            <table class="tbl"><thead><tr><th>Alias</th><th>Siswa</th><th></th></tr></thead><tbody>
+            <div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Alias</th><th>Siswa</th><th></th></tr></thead><tbody>
                 @forelse ($aliases as $a)<tr><td class="font-bold">{{ $a->alias }}</td><td>{{ $a->student?->name }} <span class="text-xs text-muted">{{ $a->student?->studentProfile?->classroom?->nama_kelas }}</span></td>
                     <td class="text-right"><form method="post" action="{{ route('bk.alias.destroy', $a) }}">@csrf<button class="btn btn-secondary btn-sm" aria-label="Hapus alias {{ $a->alias }}"><x-icon name="trash" :size="14" /></button></form></td></tr>
                 @empty<tr><td colspan="3"><x-empty icon="tag" title="Belum ada alias" /></td></tr>@endforelse
-            </tbody></table>
+            </tbody></table></div>
         </section>
         <form method="post" action="{{ route('bk.alias.store') }}" class="card card-pad h-fit space-y-4">@csrf
             <h2 class="text-lg">Tambah alias</h2>

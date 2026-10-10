@@ -33,11 +33,11 @@
 @endunless
 
 <div class="grid grid-cols-2 gap-3">
-    <a href="{{ route('siswa.laporan.create') }}" class="btn btn-primary {{ $anon ? 'col-span-2' : 'col-span-1' }} !h-auto flex-col items-start gap-3 !p-4 text-left">
+    <a href="{{ route('siswa.laporan.create') }}" class="btn btn-primary {{ $anon ? 'col-span-2' : 'col-span-1' }} !h-auto !whitespace-normal flex-col items-start gap-3 !p-4 text-left">
         <x-icon name="megaphone" :size="26" /><span class="text-base">Buat laporan</span><span class="text-xs font-medium text-white/80">Ceritakan kejadian dengan aman</span>
     </a>
     @unless ($anon)
-        <a href="{{ route('siswa.karir.create', ['dari' => 'beranda']) }}" class="btn btn-outline !h-auto flex-col items-start gap-3 !p-4 text-left">
+        <a href="{{ route('siswa.karir.create', ['dari' => 'beranda']) }}" class="btn btn-outline !h-auto !whitespace-normal flex-col items-start gap-3 !p-4 text-left">
             <x-icon name="compass" :size="26" /><span class="text-base">Konsultasi karir</span><span class="text-xs font-medium text-muted">Tanya jurusan, kuliah, beasiswa</span>
         </a>
     @endunless

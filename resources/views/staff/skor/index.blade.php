@@ -16,7 +16,7 @@
     <button class="btn btn-primary">Cari</button>
 </form>
 <section class="card mt-4 overflow-hidden">
-    <table class="tbl"><thead><tr><th>Siswa</th><th>NIS</th><th>Kelas</th><th>Skor</th><th></th></tr></thead><tbody>
+    <div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Siswa</th><th>NIS</th><th>Kelas</th><th>Skor</th><th></th></tr></thead><tbody>
         @forelse ($students as $s)
             @php $sc = $s->creditScore(); [$lbl, $ic, $cls, $bar] = \App\Support\Ui::score($sc); @endphp
             <tr><td><div class="flex items-center gap-3"><x-avatar :name="$s->name" :size="36" /><span class="font-bold">{{ $s->name }}</span></div></td>
@@ -24,6 +24,6 @@
                 <td><span class="chip {{ $cls }}"><x-icon :name="$ic" :size="14" />{{ $sc }} · {{ $lbl }}</span></td>
                 <td class="text-right"><a href="{{ sroute('skor.show', $s) }}" class="btn btn-secondary btn-sm">Buka profil</a></td></tr>
         @empty<tr><td colspan="5"><x-empty icon="users" title="Siswa tidak ditemukan" :text="$wk ? 'Pencarian dibatasi ke siswa kelas asuhanmu.' : null" /></td></tr>@endforelse
-    </tbody></table>
+    </tbody></table></div>
 </section>
 @endsection

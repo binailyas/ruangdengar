@@ -1,7 +1,7 @@
 @if ($paginator->hasPages())
     <nav role="navigation" aria-label="Paginasi" class="flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm">
         <p class="text-muted">Menampilkan <strong class="text-ink">{{ $paginator->firstItem() }}–{{ $paginator->lastItem() }}</strong> dari <strong class="text-ink">{{ fmt_num($paginator->total()) }}</strong></p>
-        <div class="flex items-center gap-1.5">
+        <div class="flex max-w-full flex-wrap items-center gap-1.5">
             @if ($paginator->onFirstPage())
                 <span class="btn btn-secondary btn-sm opacity-50"><x-icon name="chevron-left" :size="14" />Sebelumnya</span>
             @else
