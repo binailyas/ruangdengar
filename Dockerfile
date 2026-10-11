@@ -18,8 +18,8 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-# Build aset CSS/JS dengan NPM
-RUN npm install
+# Pastikan devDependencies (Vite & Tailwind) ikut ter-install
+RUN npm install --include=dev
 RUN npm run build
 
 # Storage permissions
