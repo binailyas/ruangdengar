@@ -97,7 +97,7 @@ class AuthController extends Controller
         Cache::put("otp-sent:{$user->id}", true, now()->addSeconds(30));
         // Pengembangan lokal: kode ditampilkan di halaman. Produksi: kirim lewat email/SMS.
         if (app()->isLocal()) {
-            session()->flash('dev_otp', $code);
+            session()->put('dev_otp', $code);   // bukan flash: tetap tampil saat halaman dimuat ulang atau kirim ulang ditolak (cooldown)
         }
     }
 
@@ -126,7 +126,7 @@ class AuthController extends Controller
 
         Cache::forget("otp:{$user->id}");
         RateLimiter::clear($key);
-        $request->session()->forget('otp_user');
+        $request->session()->forget(['otp_user', 'dev_otp']);
         audit('login.2fa', $user);
         return $this->finish($request, $user);
     }
@@ -139,7 +139,7 @@ class AuthController extends Controller
             return back()->withErrors(['code' => 'Tunggu 30 detik sebelum meminta kode baru.']);
         }
         $this->issueOtp($user);
-        return back()->with('status', 'Kode baru sudah dikirim.');
+        return redirect()->route('otp.show')->with('status', 'Kode baru sudah dikirim.');
     }
 
     // Akun anonim

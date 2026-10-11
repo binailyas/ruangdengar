@@ -194,4 +194,29 @@ class EvaluasiV12Test extends TestCase
         $this->assertDatabaseHas('credit_records', ['student_id' => $student->id, 'report_id' => null]);
         $this->get("/wali-kelas/skor/{$student->id}")->assertOk()->assertSee('Tanpa laporan');
     }
+
+    public function test_dev_otp_box_stays_and_updates_after_resend(): void
+    {
+        $this->app->detectEnvironment(fn () => 'local');
+        $bk = $this->user('bk1@sekolah.sch.id');
+        $this->withSession(['otp_user' => $bk->id, '_token' => 'tok']);
+        \Illuminate\Support\Facades\Cache::forget("otp-sent:{$bk->id}");
+
+        $this->post('/otp/kirim-ulang', ['_token' => 'tok'])->assertRedirect('/otp');
+        $first = session('dev_otp');
+        $this->assertMatchesRegularExpression('/^\d{6}$/', $first);
+        $this->get('/otp')->assertOk()->assertSee('kode kamu')->assertSee($first);
+        $this->get('/otp')->assertOk()->assertSee($first);            // muat ulang: tetap tampil
+
+        $this->post('/otp/kirim-ulang', ['_token' => 'tok'])->assertSessionHasErrors('code');   // cooldown: kotak tetap ada
+        $this->get('/otp')->assertSee($first);
+
+        \Illuminate\Support\Facades\Cache::forget("otp-sent:{$bk->id}");
+        do {
+            $this->post('/otp/kirim-ulang', ['_token' => 'tok'])->assertRedirect('/otp');
+            $second = session('dev_otp');
+            \Illuminate\Support\Facades\Cache::forget("otp-sent:{$bk->id}");
+        } while ($second === $first);
+        $this->get('/otp')->assertSee($second)->assertDontSee($first);
+    }
 }
