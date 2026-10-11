@@ -20,7 +20,7 @@ yarn-error.log
 
 /tools/tailwindcss.exe
 /ai-service/.venv/
-/ai-service/models/*.pkl
+# /ai-service/models/*.pkl
 /ai-service/__pycache__/
 /database/database.sqlite
 
