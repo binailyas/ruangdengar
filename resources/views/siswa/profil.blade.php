@@ -30,7 +30,9 @@
 <form method="post" action="{{ route('logout') }}" class="mt-5">@csrf<button class="btn btn-secondary btn-block"><x-icon name="log-out" :size="18" />Keluar</button></form>
 
 @if ($anon)
-    <button type="button" class="btn btn-danger btn-block mt-3" x-data @click="$dispatch('confirm', { action: '{{ route('siswa.profil.hapus') }}', method: 'DELETE', title: 'Hapus akun sementara?', text: 'Alias dan kata sandi akan hilang. Kamu tidak bisa lagi melihat status laporan lewat akun ini.', button: 'Hapus akun sementara' })">Hapus akun sementara</button>
-    <x-confirm-dialog />
+    <form method="post" action="{{ route('siswa.profil.hapus') }}" class="mt-3" data-confirm="Alias dan kata sandi akan dinonaktifkan. Kamu tidak bisa lagi masuk atau melihat status laporan lewat akun ini." data-confirm-title="Hapus akun sementara?" data-confirm-label="Hapus akun sementara" data-confirm-tone="danger">
+        @csrf @method('DELETE')
+        <button class="btn btn-danger btn-block">Hapus akun sementara</button>
+    </form>
 @endif
 @endsection

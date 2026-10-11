@@ -10,12 +10,12 @@
 
 @section('content')
 @section('bare', '1')
-<header class="mb-6 flex items-center justify-between gap-3">
-    <div class="min-w-0">
+<header class="mb-6 flex items-start justify-between gap-3">
+    <div class="min-w-0 flex-1">
         <p class="text-xs font-semibold text-muted">{{ $anon ? 'Mode lapor tanpa nama' : 'Selamat datang' }}</p>
-        <h1 class="flex items-center gap-2 truncate text-[26px] leading-tight">Hai, {{ $first }}@if ($anon)<span class="chip chip-soft">Anonim</span>@endif</h1>
+        <h1 class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[22px] leading-tight sm:text-[26px]"><span class="min-w-0 break-words">Hai, {{ $first }}</span>@if ($anon)<span class="chip chip-soft shrink-0">Anonim</span>@endif</h1>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex shrink-0 items-center gap-2">
         @unless ($anon)
             <a href="{{ route('siswa.notifikasi') }}" class="relative inline-flex size-11 items-center justify-center rounded-full border-2 border-b-4 border-line bg-white" aria-label="Notifikasi{{ $unread ? ', ' . $unread . ' belum dibaca' : '' }}">
                 <x-icon name="bell" :size="20" />@if ($unread)<span class="num-badge num-badge-danger absolute -top-1 -right-1">{{ $unread > 99 ? '99+' : $unread }}</span>@endif

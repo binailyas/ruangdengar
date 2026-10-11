@@ -219,4 +219,16 @@ class EvaluasiV12Test extends TestCase
         } while ($second === $first);
         $this->get('/otp')->assertSee($second)->assertDontSee($first);
     }
+
+    public function test_anonymous_account_delete_is_soft_and_blocks_login(): void
+    {
+        $report = IncidentReport::whereNotNull('reporter_anon_id')->first();
+        $acc = $report->reporterAnon;
+        $this->actingAs($acc, 'anon');
+        $this->get('/siswa/profil')->assertOk()->assertSee('data-confirm=', false);
+        $this->delete('/siswa/profil')->assertRedirect();
+        $this->assertSoftDeleted('anonymous_accounts', ['id' => $acc->id]);
+        $this->assertSame($acc->alias, $report->fresh()->reporterAnon->alias);   // laporan tetap terhubung
+        $this->assertNull(\App\Models\AnonymousAccount::where('alias', $acc->alias)->first());
+    }
 }

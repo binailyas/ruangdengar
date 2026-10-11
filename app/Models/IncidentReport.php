@@ -30,7 +30,7 @@ class IncidentReport extends Model
 
     public function category(): BelongsTo { return $this->belongsTo(IncidentCategory::class, 'category_id'); }
     public function reporterUser(): BelongsTo { return $this->belongsTo(User::class, 'reporter_user_id'); }
-    public function reporterAnon(): BelongsTo { return $this->belongsTo(AnonymousAccount::class, 'reporter_anon_id'); }
+    public function reporterAnon(): BelongsTo { return $this->belongsTo(AnonymousAccount::class, 'reporter_anon_id')->withTrashed(); }
     public function pic(): BelongsTo { return $this->belongsTo(User::class, 'assigned_to'); }
     public function aiModel(): BelongsTo { return $this->belongsTo(AiModelVersion::class, 'ai_model_version_id'); }
     public function attachments(): HasMany { return $this->hasMany(ReportAttachment::class, 'report_id'); }

@@ -149,7 +149,7 @@ class AuthController extends Controller
     {
         do {
             $alias = self::BIRDS[array_rand(self::BIRDS)] . '-' . random_int(1000, 9999);
-        } while (AnonymousAccount::where('alias', $alias)->exists());
+        } while (AnonymousAccount::withTrashed()->where('alias', $alias)->exists());
 
         $password = self::WORDS[array_rand(self::WORDS)] . '-' . self::WORDS[array_rand(self::WORDS)] . '-' . random_int(10, 99);
 

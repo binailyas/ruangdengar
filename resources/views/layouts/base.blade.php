@@ -23,6 +23,22 @@
     @yield('body')
     <x-flash />
     <x-confirm-modal />
-    @stack('scripts')
-</body>
+    <script>
+    // Cegah kirim ganda: formulir non-GET hanya boleh terkirim sekali; tombol dinonaktifkan sementara.
+    (function () {
+        const reset = (f) => { delete f.dataset.submitting; f.querySelectorAll('.is-busy').forEach((b) => { b.classList.remove('is-busy'); b.disabled = false; }); };
+        document.addEventListener('submit', function (e) {
+            const f = e.target;
+            if (! (f instanceof HTMLFormElement) || (f.method || '').toLowerCase() === 'get' || e.defaultPrevented) return;
+            if (f.dataset.submitting) { e.preventDefault(); return; }
+            f.dataset.submitting = '1';
+            setTimeout(() => {
+                f.querySelectorAll('button:not([type=button]), input[type=submit]').forEach((b) => { b.classList.add('is-busy'); b.disabled = true; });
+            }, 0);
+            setTimeout(() => reset(f), 8000);   // pengaman bila respons tidak kunjung datang
+        });
+        window.addEventListener('pageshow', () => document.querySelectorAll('form').forEach(reset));
+    })();
+    </script>
+    @stack('scripts')</body>
 </html>

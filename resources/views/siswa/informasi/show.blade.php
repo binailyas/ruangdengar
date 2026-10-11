@@ -15,5 +15,11 @@
     <p class="mt-1 text-xs text-muted">{{ $a->published_at->translatedFormat('d F Y') }} · {{ $a->author->name }}</p>
     <div class="mt-5 space-y-4 text-[15px] leading-relaxed whitespace-pre-line">{{ $a->isi }}</div>
 </article>
-<button type="button" class="btn btn-outline btn-block mt-6" x-data @click="navigator.share ? navigator.share({ title: @js($a->judul), url: location.href }) : navigator.clipboard.writeText(location.href)"><x-icon name="send" :size="18" />Bagikan</button>
+<button type="button" class="btn btn-outline btn-block mt-6" x-data="{ ok: false, async share() {
+        const url = location.href, title = @js($a->judul);
+        if (navigator.share) { try { await navigator.share({ title, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+        try { await navigator.clipboard.writeText(url); }
+        catch (e) { const t = document.createElement('textarea'); t.value = url; t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (_) {} t.remove(); }
+        this.ok = true; setTimeout(() => this.ok = false, 2000);
+    } }" @click="share()"><x-icon name="send" :size="18" /><span x-text="ok ? 'Tautan disalin' : 'Bagikan'">Bagikan</span></button>
 @endsection

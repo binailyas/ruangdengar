@@ -14,7 +14,7 @@ Route::get('/darurat', [PublicController::class, 'darurat'])->name('darurat');
 Route::get('/media/informasi/{file}', [PublicController::class, 'informationImage'])->where('file', '[A-Za-z0-9._-]+')->name('media.informasi');
 Route::middleware('auth')->group(function () {
     Route::get('/akun/kata-sandi', [AccountController::class, 'form'])->name('akun.sandi');
-    Route::post('/akun/kata-sandi', [AccountController::class, 'update'])->name('akun.sandi.update');
+    Route::post('/akun/kata-sandi', [AccountController::class, 'update'])->name('akun.sandi.update')->middleware('throttle:5,1');
 });
 Route::get('/lupa-password', [PublicController::class, 'forgot'])->name('forgot');
 Route::redirect('/admin/masuk', '/masuk');   // G6: tidak ada lagi login admin terpisah
@@ -46,26 +46,26 @@ Route::prefix('siswa')->name('siswa.')->middleware('student')->group(function ()
     Route::get('/notifikasi', [Student\HomeController::class, 'notifications'])->name('notifikasi');
     Route::post('/notifikasi/baca', [Student\HomeController::class, 'readAll'])->name('notifikasi.baca');
     Route::get('/profil', [Student\HomeController::class, 'profile'])->name('profil');
-    Route::post('/profil/kata-sandi', [AccountController::class, 'update'])->name('profil.password');
-    Route::delete('/profil', [Student\HomeController::class, 'destroyAnon'])->name('profil.hapus');
+    Route::post('/profil/kata-sandi', [AccountController::class, 'update'])->name('profil.password')->middleware('throttle:5,1');
+    Route::delete('/profil', [Student\HomeController::class, 'destroyAnon'])->name('profil.hapus')->middleware('throttle:3,1');
 
     Route::get('/laporan', [Student\ReportController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/buat', [Student\ReportController::class, 'create'])->name('laporan.create');
-    Route::post('/laporan', [Student\ReportController::class, 'store'])->name('laporan.store');
+    Route::post('/laporan', [Student\ReportController::class, 'store'])->name('laporan.store')->middleware('throttle:6,1');
     Route::get('/cek-status', [Student\ReportController::class, 'checkForm'])->name('cekstatus');
     Route::post('/cek-status', [Student\ReportController::class, 'checkResult'])->name('cekstatus.hasil')->middleware('throttle:10,1');
     Route::get('/laporan/terkirim', [Student\ReportController::class, 'sent'])->name('laporan.sent');
     Route::get('/laporan/{ticket}', [Student\ReportController::class, 'show'])->name('laporan.show');
     Route::get('/laporan/{ticket}/chat', [Student\ChatController::class, 'show'])->name('laporan.chat');
-    Route::post('/laporan/{ticket}/chat', [Student\ChatController::class, 'send'])->name('laporan.chat.send');
-    Route::post('/laporan/{ticket}/chat/mulai', [Student\ChatController::class, 'start'])->name('laporan.chat.mulai');
+    Route::post('/laporan/{ticket}/chat', [Student\ChatController::class, 'send'])->name('laporan.chat.send')->middleware('throttle:30,1');
+    Route::post('/laporan/{ticket}/chat/mulai', [Student\ChatController::class, 'start'])->name('laporan.chat.mulai')->middleware('throttle:6,1');
 
     Route::middleware('student:registered')->group(function () {
         Route::get('/karir', [Student\CareerController::class, 'index'])->name('karir.index');
         Route::get('/karir/baru', [Student\CareerController::class, 'create'])->name('karir.create');
-        Route::post('/karir', [Student\CareerController::class, 'store'])->name('karir.store');
+        Route::post('/karir', [Student\CareerController::class, 'store'])->name('karir.store')->middleware('throttle:6,1');
         Route::get('/karir/{room}', [Student\CareerController::class, 'show'])->name('karir.show');
-        Route::post('/karir/{room}', [Student\CareerController::class, 'send'])->name('karir.send');
+        Route::post('/karir/{room}', [Student\CareerController::class, 'send'])->name('karir.send')->middleware('throttle:30,1');
         Route::get('/kredit', [Student\CreditController::class, 'index'])->name('kredit');
         Route::get('/kredit/{record}', [Student\CreditController::class, 'show'])->name('kredit.show');
     });

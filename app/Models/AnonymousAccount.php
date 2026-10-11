@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -9,13 +10,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class AnonymousAccount extends Authenticatable
 {
+    use SoftDeletes;
+
     public $timestamps = false;
     protected $guarded = [];
     protected $hidden = ['password_hash', 'remember_token'];
 
     protected function casts(): array
     {
-        return ['expires_at' => 'datetime', 'last_activity_at' => 'datetime', 'created_at' => 'datetime'];
+        return ['expires_at' => 'datetime', 'last_activity_at' => 'datetime', 'created_at' => 'datetime', 'deleted_at' => 'datetime'];
     }
 
     public function getAuthPassword(): string { return $this->password_hash; }

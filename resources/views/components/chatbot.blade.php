@@ -1,8 +1,8 @@
 {{-- T1: pintasan lingkaran aksesibilitas -> asisten chat (berbasis aturan) + teruskan ke guru BK --}}
 @php $anon = request()->attributes->get('is_anon', false); @endphp
-<div x-data="chatbot(@js(route('siswa.chatbot')), @js($anon), @js($anon ? route('siswa.laporan.create') : route('siswa.karir.create', ['topik' => 'Lainnya', 'dari' => 'beranda'])))" @keydown.escape.window="open = false">
+<div x-data="chatbot(@js(route('siswa.chatbot')), @js($anon), @js($anon ? route('siswa.laporan.create') : route('siswa.karir.create', ['topik' => 'Lainnya', 'dari' => 'beranda'])))" @keydown.escape.window="open = false" @scroll.window.passive="onScroll()">
     <button type="button" @click="toggle()" :aria-expanded="open" aria-controls="chatbot-panel"
-            class="fab fab-left !z-40" aria-label="Buka asisten RuangDengar">
+            :class="scrolling && ! open ? '!opacity-25' : ''" class="fab fab-left !z-40" aria-label="Buka asisten RuangDengar">
         <span x-show="! open"><x-icon name="bot" :size="26" /></span><span x-show="open" x-cloak><x-icon name="x" :size="24" /></span>
     </button>
 
@@ -45,7 +45,8 @@
 <script>
 function chatbot(url, anon, forward) {
     return {
-        open: false, busy: false, text: '', anon, msgs: [],
+        open: false, busy: false, text: '', anon, msgs: [], scrolling: false, _t: null,
+        onScroll() { this.scrolling = true; clearTimeout(this._t); this._t = setTimeout(() => this.scrolling = false, 700); },
         quick: ['Cara lapor', 'Lapor tanpa nama', 'Cek status', 'Aku sedang stres'],
         toggle() {
             this.open = ! this.open;

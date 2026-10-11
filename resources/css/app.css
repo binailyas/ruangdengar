@@ -37,6 +37,9 @@
     /* V13: tata letak tidak boleh bisa digeser ke samping melebihi lebar layar. */
     html, body { max-width: 100%; overflow-x: clip; }
     img, svg, video, canvas { max-width: 100%; }
+    /* Kolom grid bawaan boleh menyusut; isi panjang (chat, tabel) tidak mendorong lebar halaman. */
+    .grid { grid-template-columns: minmax(0, 1fr); }
+    * { -webkit-tap-highlight-color: transparent; }
     /* Elemen absolut (mis. sr-only) di dalam tabel yang bisa digeser jangan melebar ke luar kartu. */
     .overflow-x-auto, .overflow-auto { position: relative; }
     /* V13-3: sembunyikan ikon mata/hapus bawaan Edge supaya hanya ada satu ikon buatan sendiri. */
@@ -125,7 +128,7 @@
     .bubble-them { @apply mr-auto rounded-bl-sm bg-soft text-ink; }
 
     /* Bottom nav pil (siswa) */
-    .pill-nav { @apply fixed inset-x-4 z-30 mx-auto flex max-w-[420px] items-center justify-around rounded-full border-2 border-b-4 border-line bg-white p-1.5; bottom: max(1rem, env(safe-area-inset-bottom)); }
+    .pill-nav { @apply fixed inset-x-4 z-30 mx-auto flex w-[calc(100%-2rem)] max-w-[420px] items-center justify-around rounded-full border-2 border-b-4 border-line bg-white p-1.5; bottom: max(1rem, env(safe-area-inset-bottom)); }
     /* S3: bentuk kapsul (bukan lingkaran) supaya teks tidak menempel ke sudut border; tinggi tetap 48px. */
     .pill-item { @apply flex h-12 min-w-14 flex-col items-center justify-center gap-0.5 rounded-full px-2.5 text-muted transition-colors hover:bg-soft hover:text-ink; }
     .pill-item[aria-current="page"] { @apply bg-primary text-white hover:bg-primary-dark hover:text-white; }
@@ -138,6 +141,17 @@
     /* S2: bagian form tampil sebagai lapisan edit (modal layar penuh) tanpa memindahkan posisi halaman. */
     .edit-overlay { @apply fixed inset-0 z-[55] overflow-y-auto bg-bg px-4 pt-5 pb-10; }
 }
+
+/* Umpan balik sentuhan: elemen interaktif mengecil sedikit saat ditekan */
+.btn, .btn-icon, .pill-item, .nav-item, .fab, .chip, a.card, button.card, summary, .tab {
+    transition: transform 90ms ease, opacity 90ms ease, background-color 120ms ease;
+}
+.btn:active:not(:disabled), .btn-icon:active, .pill-item:active, .nav-item:active, .fab:active, a.card:active, button.card:active, .tab:active {
+    transform: scale(0.96);
+    opacity: 0.85;
+}
+.divide-y > a:active, .divide-y > details > summary:active { background-color: var(--color-soft); }
+.btn.is-busy, button.is-busy { opacity: 0.6; pointer-events: none; }
 
 /* Gambar/ikon tidak ikut menyusut di flex */
 svg.icon { flex-shrink: 0; }

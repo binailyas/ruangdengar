@@ -1,6 +1,6 @@
 {{-- Kotak percakapan bersama: daftar gelembung (polling 8 dtk) + input. canWrite=false => mode baca saja / ditutup. --}}
 @props(['messages', 'viewer' => 'siswa', 'actor', 'postUrl' => null, 'partialUrl', 'canWrite' => true, 'lockedText' => 'Percakapan ditutup', 'quick' => [], 'height' => 'h-[60vh]'])
-<div x-data="chatBox(@js($partialUrl))" x-init="init()">
+<div x-data="chatBox(@js($partialUrl))" x-init="init()" class="w-full min-w-0 max-w-full">
     <div id="chat-list" x-ref="list" class="{{ $height }} overflow-y-auto rounded-xl border-2 border-line bg-white p-4" aria-live="polite">
         @include('partials.chat-messages', ['messages' => $messages, 'viewer' => $viewer, 'actor' => $actor])
     </div>
@@ -8,7 +8,7 @@
     @if ($canWrite && $postUrl)
         @if ($quick)
             <div class="mt-3 flex flex-wrap gap-2">
-                @foreach ($quick as $q)<button type="button" class="chip chip-soft cursor-pointer hover:bg-line/50" @click="$refs.input.value = @js($q); $refs.input.focus()">{{ $q }}</button>@endforeach
+                @foreach ($quick as $q)<button type="button" class="chip chip-soft max-w-full cursor-pointer !h-auto !whitespace-normal py-1 text-left hover:bg-line/50" @click="$refs.input.value = @js($q); $refs.input.focus()">{{ $q }}</button>@endforeach
             </div>
         @endif
         <form method="post" action="{{ $postUrl }}" class="mt-3 flex items-end gap-2">

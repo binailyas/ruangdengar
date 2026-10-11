@@ -176,7 +176,7 @@ class ReportService
         $stillOpen = IncidentReport::where('reporter_anon_id', $report->reporter_anon_id)
             ->where('id', '!=', $report->id)->whereNotIn('status', ['diarsipkan', 'ditolak'])->exists();
         if (! $stillOpen) {
-            AnonymousAccount::whereKey($report->reporter_anon_id)->delete();
+            AnonymousAccount::withTrashed()->whereKey($report->reporter_anon_id)->forceDelete();   // arsip: hapus permanen, bukan soft delete
             audit('akun.anonim_ditutup', $report, ['alasan' => 'kasus diarsipkan']);
         }
     }
