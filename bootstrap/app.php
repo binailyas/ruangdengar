@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Render menghentikan TLS di proxy; percayai header X-Forwarded-* agar
+        // Laravel tahu request aslinya HTTPS (asset(), url(), route() jadi https://).
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'student' => EnsureStudent::class,

@@ -19,7 +19,12 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('vendor.pagination.bk');
         Carbon::setLocale('id');
 
-        if ($this->app->environment('production') || config('app.env') === 'production') {
+        // Paksa https di production, atau kapan pun APP_URL memakai https
+        // (mis. Render dengan APP_ENV belum diset) agar CSS tidak diblokir mixed content.
+        if (
+            $this->app->environment('production')
+            || str_starts_with((string) config('app.url'), 'https://')
+        ) {
             URL::forceScheme('https');
         }
     }

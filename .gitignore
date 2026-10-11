@@ -25,3 +25,5 @@ yarn-error.log
 /database/database.sqlite
 
 /ai-service/models/meta.json
+
+

@@ -1,30 +1,28 @@
 FROM php:8.2-fpm
 
-# Install dependencies, PHP extensions, dan Node.js
+# Dependensi sistem dan ekstensi PHP
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip nginx
-
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Install Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+# CSS Tailwind v4 sudah dibangun & di-commit di public/css/app.css (dimuat lewat asset(),
+# bukan @vite), jadi TIDAK ada langkah npm/vite di sini.
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Pastikan devDependencies (Vite & Tailwind) ikut ter-install
-RUN npm install --include=dev
-RUN npm run build
+# Izin tulis storage & cache
+RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
 
-# Storage permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Render mengisi $PORT (default 10000); fallback 8080 untuk lokal
+EXPOSE 10000
 
-EXPOSE 8080
-
-CMD php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=8080
+CMD ["sh", "-c", "php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
