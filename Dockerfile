@@ -25,4 +25,6 @@ RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framewor
 # Render mengisi $PORT (default 10000); fallback 8080 untuk lokal
 EXPOSE 10000
 
-CMD ["sh", "-c", "php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
+# RUN_SEED=true (env Render) -> jalankan db:seed saat startup (data dasar; + data demo bila APP_DEMO=true).
+# Berjalan sebelum config:cache. Aman diulang: data demo hanya dibuat jika tabel users masih kosong.
+CMD ["sh", "-c", "php artisan migrate --force && if [ \"$RUN_SEED\" = \"true\" ]; then php artisan db:seed --force; fi && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]

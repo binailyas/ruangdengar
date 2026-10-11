@@ -31,9 +31,9 @@
     </div>
 </div>
 
-@if (app()->isLocal())
+@if (app()->isLocal() || config('app.demo'))
     <div class="card-flat mt-4 border-dashed p-4 text-xs text-muted">
-        <p class="mb-1 font-bold text-ink">Akun demo (lokal) · kata sandi: <span class="font-mono">password</span></p>
+        <p class="mb-1 font-bold text-ink">Akun demo · kata sandi: <span class="font-mono">password</span></p>
         Siswa <span class="font-mono">2024001</span> · BK <span class="font-mono">bk1@sekolah.sch.id</span> · Wali kelas <span class="font-mono">wk1@sekolah.sch.id</span> · Admin <span class="font-mono">admin@sekolah.sch.id</span>
     </div>
 @endif

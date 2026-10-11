@@ -96,7 +96,7 @@ class AuthController extends Controller
         Cache::put("otp:{$user->id}", Hash::make($code), now()->addMinutes(10));
         Cache::put("otp-sent:{$user->id}", true, now()->addSeconds(30));
         // Pengembangan lokal: kode ditampilkan di halaman. Produksi: kirim lewat email/SMS.
-        if (app()->isLocal()) {
+        if (app()->isLocal() || config('app.demo')) {
             session()->put('dev_otp', $code);   // bukan flash: tetap tampil saat halaman dimuat ulang atau kirim ulang ditolak (cooldown)
         }
     }

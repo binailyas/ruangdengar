@@ -83,4 +83,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Mode Demo
+    |--------------------------------------------------------------------------
+    |
+    | APP_DEMO=true: data demo ikut di-seed, kode OTP 2FA ditampilkan di halaman,
+    | dan daftar akun demo muncul di halaman masuk - walau APP_ENV=production.
+    | Khusus demo/lomba. Matikan untuk penggunaan sebenarnya.
+    |
+    */
+
+    'demo' => (bool) env('APP_DEMO', false),
+
 ];
