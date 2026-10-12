@@ -17,7 +17,6 @@
 
 <p align="center">
   <a href="https://ruangdengar-web.onrender.com/"><b>🔗 Demo</b></a> ·
-  <a href="docs/SUBMISSION.md"><b>📄 Dokumentasi Submission</b></a> ·
   <a href="docs/ERD.md"><b>🗂️ ERD</b></a>
 </p>
 
