@@ -1,11 +1,60 @@
-# RuangDengar — Sistem Layanan Terpadu BK Sekolah
+<p align="center">
+  <img src="public/images/logo-ruangdengar-ungu.svg" alt="ruangdengar" width="220">
+</p>
 
-Laravel 12 · Blade · Tailwind CSS v4 · MySQL/MariaDB · sidecar AI (FastAPI + model `.pkl`).
-Lima peran: **Siswa**, **Anonim**, **Admin**, **Guru BK**, **Wali Kelas** (tanpa TPPK). Desain mengikuti brief UI "Tactile Counseling Companion" (Palet C ungu lembut).
+<h1 align="center">ruangdengar</h1>
+<p align="center"><i>Suarakan Ceritamu, Temukan Jalanmu</i></p>
 
-> Catatan versi: rancangan menyebut Laravel 11, tetapi semua rilis 11.x diblokir Composer karena advisory keamanan (EOL), jadi proyek memakai **Laravel 12** (kode kompatibel).
+<p align="center">
+  Platform layanan BK (Bimbingan Konseling) sekolah berbasis web — pelaporan anonim, triase prioritas berbantuan AI,
+  dan analitik pola insiden untuk mewujudkan Budaya Sekolah yang Aman dan Nyaman (BSAN).
+</p>
 
-## Jalankan lokal (Laragon, port bawaan)
+<p align="center">
+  <b>Lomba Web Development ITX (Informatic Technology Experience) 2026</b> · FESTIDA, Universitas Darussalam Gontor<br>
+  Tim <b>vibe coders sejati</b> — Institut Teknologi Sepuluh Nopember (ITS)
+</p>
+
+<p align="center">
+  <a href="https://ruangdengar-web.onrender.com/"><b>🔗 Demo</b></a> ·
+  <a href="docs/ERD.md"><b>🗂️ ERD</b></a>
+</p>
+
+---
+
+## Tentang Proyek
+
+Banyak kasus kekerasan dan perundungan di sekolah tidak terlaporkan karena korban/saksi takut intimidasi balasan, stigma sosial, atau risiko terbukanya identitas. Di sisi lain, Guru BK dan Wali Kelas kesulitan memantau, memprioritaskan, dan memetakan pola kejadian ketika penanganan masih dilakukan secara manual.
+
+**ruangdengar** hadir sebagai platform BK digital dengan lima pilar utama:
+
+1. **Pelaporan Anonim Temporal** — akun sementara tanpa menyimpan IP/User-Agent/identitas perangkat.
+2. **Triase Otomatis Berbasis AI/NLP** — rekomendasi prioritas (Rendah/Sedang/Tinggi) beserta *confidence score*; keputusan akhir tetap di tangan Guru BK (*human-in-the-loop*).
+3. **Tata Kelola Peran Terstruktur (RBAC)** — Wali Kelas sebagai peninjau awal, Guru BK sebagai penanganan utama & konselor, Admin tanpa akses ke isi laporan.
+4. **Analitik Pola Insiden** — peringkat kata kunci, *watchlist*, pemetaan pihak terlibat, dan pencatatan skor kredit kedisiplinan yang transparan.
+5. **Ekosistem Layanan Pendukung Inklusif** — chatbot panduan, konsultasi karier dengan Guru BK, dan tombol akses darurat.
+
+
+## Fitur per Peran
+
+| Peran | Fitur Utama |
+|---|---|
+| **Siswa / Anonim** | Buat laporan, cek status via tiket, chat dengan BK, chatbot, konsultasi karier, lihat skor kredit |
+| **Guru BK** | Tinjau laporan + saran prioritas AI, proses kasus, analitik kata kunci/pola, kelola informasi & skor kredit |
+| **Wali Kelas** | Tinjau laporan kelas asuhan (baca-saja + tandai "Ditinjau"), koordinasi dengan Guru BK |
+| **Admin** | Kelola akun & kelas, hak akses per peran, kategori insiden, audit log (tanpa membaca isi laporan) |
+
+## Tech Stack
+
+`Laravel 12` · `Blade` · `Tailwind CSS v4` · `MySQL/MariaDB` · `FastAPI (Python)` sidecar AI · model NLP `TF-IDF + Logistic Regression`
+
+> Catatan versi: rancangan awal menyebut Laravel 11, tetapi semua rilis 11.x diblokir Composer karena advisory keamanan (EOL), jadi proyek memakai **Laravel 12** (kode kompatibel).
+
+Lima peran pengguna: **Siswa**, **Anonim**, **Admin**, **Guru BK**, **Wali Kelas**. Desain mengikuti brief UI *"Tactile Counseling Companion"* (palet ungu lembut).
+
+---
+
+## Menjalankan Secara Lokal (Laragon, port bawaan)
 
 Port bawaan Laragon: web **80**, MySQL **3306** (user `root`, tanpa sandi). `.env` sudah disetel demikian.
 Nama database: **`ruang_dengar`** (sebelumnya `bk_sahabat`).
@@ -42,6 +91,7 @@ Jangan memakai `CREATE TABLE ... LIKE`: itu tidak menyalin foreign key. Setelah 
 
 Kasus Selesai diarsipkan 30 hari kemudian (pemberitahuan hari ke-25) oleh `php artisan kasus:arsipkan`, dijadwalkan harian.
 Jalankan scheduler tiap menit: cron `* * * * * php artisan schedule:run`, atau Task Scheduler Windows memanggil `php artisan schedule:run`.
+
 ### Akun demo (kata sandi: `password`)
 
 | Peran | Login |
@@ -54,7 +104,7 @@ Jalankan scheduler tiap menit: cron `* * * * * php artisan schedule:run`, atau T
 
 Staf memakai **2FA**; di mode lokal kode OTP ditampilkan di halaman verifikasi (produksi: kirim via email/SMS).
 
-## Deploy model AI (`.pkl`)
+## Deploy Model AI (`.pkl`)
 
 Lihat [ai-service/README.md](ai-service/README.md). Ringkas: salin model ke `ai-service/models/model.pkl`,
 samakan versi scikit-learn, jalankan `ai-service\run.ps1` (port 8001). Laravel memanggil `POST /classify`;
@@ -70,7 +120,7 @@ bila mati, laporan tetap berjalan dan kolom saran AI kosong. Status/versi terlih
 `php artisan test` — smoke test semua halaman per peran + aturan akses (admin tak bisa buka laporan, Wali Kelas baca-saja & terbatas kelas,
 saran AI tak bocor ke siswa, 2FA, akun anonim).
 
-## Batasan yang perlu diketahui
+## Batasan yang Perlu Diketahui
 
 * Hak akses per peran diedit admin di Role dan akses (tabel `role_permissions`); ambang skor kredit di Pengaturan.
 * Skor kredit tidak direset saat naik kelas (saldo bawaan).
@@ -87,3 +137,15 @@ saran AI tak bocor ke siswa, 2FA, akun anonim).
 * Matriks Role & Akses: sel dikunci sistem; hanya 3 kebijakan sekolah (Wali Kelas: ubah status, baca chat, catat skor) yang dapat diubah dan benar-benar dipakai.
 * Chat memakai polling 8 detik (belum WebSocket/Reverb). Email/SMS (OTP, undangan) belum terhubung.
 * Pengecekan visual dilakukan lewat render headless; uji di perangkat/browser nyata sebelum rilis.
+
+---
+
+## Tim
+
+**vibe coders sejati** — Institut Teknologi Sepuluh Nopember (ITS)
+
+- Devin Alif Fansyah Yahya
+- Bina Ilyas Santosa
+- Rafsyah Fachri Isfansyah
+
+Seluruh anggota berkontribusi secara kolektif dan setara di semua tahap pengembangan — riset, desain, backend, frontend, integrasi AI, dan pengujian.
