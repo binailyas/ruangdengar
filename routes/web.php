@@ -8,6 +8,19 @@ use App\Http\Controllers\Staff;
 use App\Http\Controllers\Student;
 use Illuminate\Support\Facades\Route;
 
+
+use Illuminate\Support\Facades\DB;
+
+Route::get('/keep-alive/{token}', function (string $token) {
+    $expected = (string) config('services.keepalive.token');
+
+    abort_if($expected === '' || ! hash_equals($expected, $token), 404);
+
+    DB::select('select 1');
+
+    return response('ok', 200);
+});
+
 // Publik & autentikasi
 Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
 Route::get('/darurat', [PublicController::class, 'darurat'])->name('darurat');

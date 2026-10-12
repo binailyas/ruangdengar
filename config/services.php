@@ -26,4 +26,8 @@ return [
         ],
     ],
 
+    'keepalive' => [
+        'token' => env('KEEPALIVE_TOKEN'),
+    ],
+
 ];
